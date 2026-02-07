@@ -1,6 +1,7 @@
 using Tenisu.Application.Handlers.Players;
 using Tenisu.Application.Repositories;
 using Tenisu.Infrastructure.Repositories;
+using Tenisu.Infrastructure.Seeders;
 
 namespace Tenisu.Web;
 
@@ -16,7 +17,8 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IPlayersRepository, PlayersRepository>();
+        services.AddSingleton<IPlayersRepository, PlayersRepository>();
+        services.AddSingleton<IPlayersSeeder, PlayersSeeder>();
 
         return services;
     }
