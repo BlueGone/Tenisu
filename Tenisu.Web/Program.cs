@@ -1,7 +1,11 @@
 using Scalar.AspNetCore;
+using Tenisu.Web;
 using Tenisu.Web.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRepositories();
+builder.Services.AddHandlers();
 
 builder.Services.AddOpenApi();
 

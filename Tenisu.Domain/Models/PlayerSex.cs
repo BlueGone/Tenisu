@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Tenisu.Web.Models;
+namespace Tenisu.Domain.Models;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum PlayerSex

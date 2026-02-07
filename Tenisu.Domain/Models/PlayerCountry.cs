@@ -1,4 +1,4 @@
-namespace Tenisu.Web.Models;
+namespace Tenisu.Domain.Models;
 
 public record PlayerCountry(Uri Picture, string Code)
 {

@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="Tenisu.Application/Tenisu.Application.csproj" />
+  <Project Path="Tenisu.Domain/Tenisu.Domain.csproj" />
+  <Project Path="Tenisu.Infrastructure/Tenisu.Infrastructure.csproj" />
   <Project Path="Tenisu.Web/Tenisu.Web.csproj" />
 </Solution>

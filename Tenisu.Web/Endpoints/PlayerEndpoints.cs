@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using Tenisu.Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using Tenisu.Application.Handlers.Players;
+using Tenisu.Domain.Models;
 
 namespace Tenisu.Web.Endpoints;
 
@@ -15,18 +17,22 @@ public static class PlayerEndpoints
         return app;
     }
 
-    private static Task<IReadOnlyCollection<Player>> ListPlayersAsync() =>
-        Task.FromResult<IReadOnlyCollection<Player>>([Player.NovakDjokovic]);
+    private static Task<IReadOnlyCollection<Player>> ListPlayersAsync(
+        [FromServices] ListPlayersHandler handler
+    ) => handler.HandleAsync();
 
-    private static Task<Results<Ok<Player>, NotFound>> GetPlayerAsync(int id)
+    private static async Task<Results<Ok<Player>, NotFound>> GetPlayerAsync(
+        [FromServices] GetPlayerHandler handler,
+        int id
+    )
     {
-        if (id == Player.NovakDjokovic.Id)
+        var player = await handler.HandleAsync(id);
+
+        if (player is null)
         {
-            return Task.FromResult<Results<Ok<Player>, NotFound>>(
-                TypedResults.Ok(Player.NovakDjokovic)
-            );
+            return TypedResults.NotFound();
         }
 
-        return Task.FromResult<Results<Ok<Player>, NotFound>>(TypedResults.NotFound());
+        return TypedResults.Ok(player);
     }
 }
