@@ -10,7 +10,9 @@ public class PlayersRepository(IPlayersSeeder seeder) : IPlayersRepository
 
     public Task<IReadOnlyCollection<Player>> ListPlayersAsync()
     {
-        return Task.FromResult<IReadOnlyCollection<Player>>([.. _players]);
+        return Task.FromResult<IReadOnlyCollection<Player>>([
+            .. _players.OrderBy(player => player.Data.Rank),
+        ]);
     }
 
     public Task<Player?> GetPlayerAsync(int id)
