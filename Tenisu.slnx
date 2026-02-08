@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Tenisu.Domain.Tests/Tenisu.Domain.Tests.csproj" />
+  </Folder>
   <Project Path="Tenisu.Application/Tenisu.Application.csproj" />
   <Project Path="Tenisu.Domain/Tenisu.Domain.csproj" />
   <Project Path="Tenisu.Infrastructure/Tenisu.Infrastructure.csproj" />

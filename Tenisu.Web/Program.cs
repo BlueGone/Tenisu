@@ -16,5 +16,6 @@ app.MapOpenApi();
 app.MapScalarApiReference();
 
 app.MapPlayerEndpoints();
+app.MapStatisticEndpoints();
 
 app.Run();
