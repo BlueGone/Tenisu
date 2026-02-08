@@ -53,10 +53,16 @@ public class WinRateCalculatorTests
     }
 
     private static Player CreatePlayerWithLast(MatchResult[] last) =>
-        Player.NovakDjokovic with
-        {
-            Data = Player.NovakDjokovic.Data with { Last = last },
-        };
+        new(
+            Id: 52,
+            FirstName: "Novak",
+            LastName: "Djokovic",
+            ShortName: "N.DJO",
+            PlayerSex.Male,
+            new PlayerCountry(new Uri("https://tenisu.latelier.co/resources/Serbie.png"), "SRB"),
+            Picture: new Uri("https://tenisu.latelier.co/resources/Djokovic.png"),
+            new PlayerData(Rank: 2, Points: 2542, Weight: 80000, Height: 188, Age: 31, Last: last)
+        );
 
     public static TheoryData<MatchResult[], float> MatchHistoryWinRateTestData() =>
         new()
