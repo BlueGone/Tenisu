@@ -4,6 +4,8 @@ using Tenisu.Web.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddValidation();
+
 builder.Services.AddRepositories();
 builder.Services.AddHandlers();
 

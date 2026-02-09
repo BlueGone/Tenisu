@@ -1,6 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using Tenisu.Application.Handlers.Players;
 using Tenisu.Application.Handlers.Statistic;
 using Tenisu.Application.Repositories;
+using Tenisu.Domain.Models;
 using Tenisu.Infrastructure.Repositories;
 using Tenisu.Infrastructure.Seeders;
 
@@ -12,6 +14,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<ListPlayersHandler>();
         services.AddScoped<GetPlayerHandler>();
+        services.AddScoped<CreatePlayerHandler>();
 
         services.AddScoped<GetStatisticHandler>();
 

@@ -6,4 +6,6 @@ public interface IPlayersRepository
 {
     Task<IReadOnlyCollection<Player>> ListPlayersAsync();
     Task<Player?> GetPlayerAsync(int id);
+    Task<Player> AddPlayerAsync(Player player);
+    Task<bool> AnyWithRankAsync(uint rank);
 }
