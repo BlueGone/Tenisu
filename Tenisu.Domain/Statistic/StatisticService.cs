@@ -5,8 +5,13 @@ namespace Tenisu.Domain.Statistic;
 
 public static class StatisticService
 {
-    public static Domain.Models.Statistic GetStatistic(IReadOnlyCollection<Player> allPlayers)
+    public static Domain.Models.Statistic? GetStatistic(IReadOnlyCollection<Player> allPlayers)
     {
+        if (!allPlayers.Any())
+        {
+            return null;
+        }
+
         return new Domain.Models.Statistic(
             GetBestCountry(allPlayers),
             GetAverageBodyMassIndex(allPlayers),
@@ -14,26 +19,31 @@ public static class StatisticService
         );
     }
 
-    private static PlayerCountry GetBestCountry(IReadOnlyCollection<Player> players)
+    public static PlayerCountry? GetBestCountry(IReadOnlyCollection<Player> players)
     {
         var bestCountryGroup = players
             .GroupBy(player => player.Country, new PlayerCountryByCodeEqualityComparer())
-            .MaxBy(WinRateCalculator.GetPlayersAverageWinRate);
+            .Select(grp => new
+            {
+                Country = grp.Key,
+                AverageWinRate = WinRateCalculator.GetPlayersAverageWinRate(grp),
+            })
+            .MaxBy(grp => grp.AverageWinRate);
 
-        if (bestCountryGroup is null)
+        if (bestCountryGroup?.AverageWinRate is null)
         {
-            throw new InvalidOperationException("Sequence contains no elements");
+            return null;
         }
 
-        return bestCountryGroup.Key;
+        return bestCountryGroup.Country;
     }
 
-    private static double GetMedianHeight(IReadOnlyCollection<Player> players)
+    public static double GetMedianHeight(IReadOnlyCollection<Player> players)
     {
         return players.Median(player => player.Data.Height);
     }
 
-    private static double GetAverageBodyMassIndex(IReadOnlyCollection<Player> players)
+    public static double GetAverageBodyMassIndex(IReadOnlyCollection<Player> players)
     {
         return players.Average(BodyMassIndexCalculator.GetBodyMassIndex);
     }

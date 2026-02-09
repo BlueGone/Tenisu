@@ -9,11 +9,6 @@ public class GetStatisticHandler(IPlayersRepository playersRepository)
     {
         var allPlayers = await playersRepository.ListPlayersAsync();
 
-        if (!allPlayers.Any())
-        {
-            return null;
-        }
-
         return StatisticService.GetStatistic(allPlayers);
     }
 }

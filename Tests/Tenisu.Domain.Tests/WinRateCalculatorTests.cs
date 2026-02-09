@@ -12,7 +12,7 @@ public class WinRateCalculatorTests
         float expected
     )
     {
-        var player = CreatePlayerWithLast(last);
+        var player = new PlayerBuilder().WithLast(last).Player;
 
         var actual = WinRateCalculator.GetPlayerWinRate(player);
 
@@ -22,9 +22,11 @@ public class WinRateCalculatorTests
     [Fact]
     public void GetPlayerWinRate_WithEmptyHistory_ThrowsInvalidOperationException()
     {
-        var player = CreatePlayerWithLast([]);
+        var player = new PlayerBuilder().WithLast([]).Player;
 
-        Assert.Throws<InvalidOperationException>(() => WinRateCalculator.GetPlayerWinRate(player));
+        var winRate = WinRateCalculator.GetPlayerWinRate(player);
+
+        Assert.Null(winRate);
     }
 
     [Fact]
@@ -32,14 +34,17 @@ public class WinRateCalculatorTests
     {
         var players = new[]
         {
-            CreatePlayerWithLast([MatchResult.Win, MatchResult.Win]), // 1.0
-            CreatePlayerWithLast([MatchResult.Lose, MatchResult.Lose]), // 0.0
-            CreatePlayerWithLast([MatchResult.Win, MatchResult.Win, MatchResult.Lose]), // 0.666
+            new PlayerBuilder().WithLast([MatchResult.Win, MatchResult.Win]).Player, // 1.0
+            new PlayerBuilder().WithLast([MatchResult.Lose, MatchResult.Lose]).Player, // 0.0
+            new PlayerBuilder()
+                .WithLast([MatchResult.Win, MatchResult.Win, MatchResult.Lose])
+                .Player, // 0.666
         };
 
         var actual = WinRateCalculator.GetPlayersAverageWinRate(players);
 
-        Assert.Equal(0.555f, actual, precision: 2);
+        Assert.NotNull(actual);
+        Assert.Equal(0.555f, actual.Value, precision: 2);
     }
 
     [Fact]
@@ -47,22 +52,10 @@ public class WinRateCalculatorTests
     {
         var players = Array.Empty<Player>();
 
-        Assert.Throws<InvalidOperationException>(() =>
-            WinRateCalculator.GetPlayersAverageWinRate(players)
-        );
-    }
+        var averageWinRate = WinRateCalculator.GetPlayersAverageWinRate(players);
 
-    private static Player CreatePlayerWithLast(MatchResult[] last) =>
-        new(
-            Id: 52,
-            FirstName: "Novak",
-            LastName: "Djokovic",
-            ShortName: "N.DJO",
-            PlayerSex.Male,
-            new PlayerCountry(new Uri("https://tenisu.latelier.co/resources/Serbie.png"), "SRB"),
-            Picture: new Uri("https://tenisu.latelier.co/resources/Djokovic.png"),
-            new PlayerData(Rank: 2, Points: 2542, Weight: 80000, Height: 188, Age: 31, Last: last)
-        );
+        Assert.Null(averageWinRate);
+    }
 
     public static TheoryData<MatchResult[], float> MatchHistoryWinRateTestData() =>
         new()
