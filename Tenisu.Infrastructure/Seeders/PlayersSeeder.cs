@@ -12,7 +12,7 @@ public interface IPlayersSeeder
 public class PlayersSeeder : IPlayersSeeder
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
-    private const string SeederEmbeddedRessourceName = "players_seed.json";
+    private const string SeederEmbeddedResourceName = "players_seed.json";
 
     public List<Player> GetSeedPlayers()
     {
@@ -33,8 +33,8 @@ public class PlayersSeeder : IPlayersSeeder
     private static Stream OpenEmbeddedSeedPlayersStream() =>
         Assembly
             .GetExecutingAssembly()
-            .GetManifestResourceStream(typeof(PlayersSeeder), SeederEmbeddedRessourceName)
+            .GetManifestResourceStream(typeof(PlayersSeeder), SeederEmbeddedResourceName)
         ?? throw new PlayersSeederException(
-            $"Could not find embedded resource with name {SeederEmbeddedRessourceName}"
+            $"Could not find embedded resource with name {SeederEmbeddedResourceName}"
         );
 }

@@ -39,7 +39,7 @@ public static class PlayerEndpoints
         return TypedResults.Ok(player);
     }
 
-    private static async Task<Results<Ok<Player>, Conflict<ProblemDetails>>> CreatePlayerAsync(
+    private static async Task<Results<Created<Player>, Conflict<ProblemDetails>>> CreatePlayerAsync(
         [FromServices] CreatePlayerHandler handler,
         [FromBody] Player player
     )
@@ -48,7 +48,7 @@ public static class PlayerEndpoints
 
         return response switch
         {
-            CreatePlayerResponse.Created created => TypedResults.Ok(created.Player),
+            CreatePlayerResponse.Created created => TypedResults.Created($"/players/{created.Player.Id}", created.Player),
             CreatePlayerResponse.PlayerWithRankAlreadyExist => TypedResults.Conflict(
                 new ProblemDetails { Detail = "Another player with the same rank already exists" }
             ),

@@ -48,7 +48,7 @@ public class StatisticServiceTests
     }
 
     [Fact]
-    public void GestBestCountry_WhenMultiplePlayersPlayedMatches_ReturnsBestCountry()
+    public void GetBestCountry_WhenMultiplePlayersPlayedMatches_ReturnsBestCountry()
     {
         Player[] players =
         [
